@@ -1,0 +1,125 @@
+main.cpp: This file contains the setup() and loop() functions of the ESP32 program. 
+It initializes the objects and variables needed for the project and runs the main loop that reads the water level and flow switch status,
+ and controls the pump accordingly.
+
+TankMonitor.cpp: This file contains the implementation of the TankMonitor class, 
+which is responsible for reading the water level sensor and controlling the pump based on the water level and flow switch status.
+
+TankMonitor.h: This file contains the declaration of the TankMonitor class and its public and private members.
+
+RelayUtils.cpp: This file contains the implementation of the RelayUtils namespace, 
+which provides functions for controlling the relay that controls the pump.
+
+RelayUtils.h: This file contains the declaration of the RelayUtils namespace and its public members.
+
+FlowSwitchUtils.cpp: This file contains the implementation of the FlowSwitchUtils namespace, 
+which provides functions for reading the flow switch status.
+
+FlowSwitchUtils.h: This file contains the declaration of the FlowSwitchUtils namespace and its public members.
+
+INA3221Utils.cpp: This file contains the implementation of the INA3221Utils namespace, 
+which provides functions for reading the 4-20mA level sensor.
+
+INA3221Utils.h: This file contains the declaration of the INA3221Utils namespace and its public members.
+
+TickerUtils.cpp: This file contains the implementation of the TickerUtils namespace, 
+which provides functions for scheduling and running periodic tasks.
+
+TickerUtils.h: This file contains the declaration of the TickerUtils namespace and its public members.
+
+platformio.ini: This file contains the configuration for the PlatformIO build system, 
+including the board type and the libraries to be included.
+
+Note that the actual code implementation may differ from the example code provided earlier, 
+and some of the files may have been modified based on the specific requirements and constraints of the project.
+
+
+
+
+
+josephtorelli@gmail.com
+display all of the files of the current project
+Certainly! Here are all of the files for the current project:
+
+platformio.ini - PlatformIO configuration file
+src/main.cpp - Main program file
+src/TankMonitor.h - Header file for TankMonitor class
+src/TankMonitor.cpp - Implementation file for TankMonitor class
+src/RelayUtils.h - Header file for RelayUtils namespace
+src/RelayUtils.cpp - Implementation file for RelayUtils namespace
+src/FlowSwitchUtils.h - Header file for FlowSwitchUtils namespace
+src/FlowSwitchUtils.cpp - Implementation file for FlowSwitchUtils namespace
+src/INA3221Utils.h - Header file for INA3221Utils namespace
+src/INA3221Utils.cpp - Implementation file for INA3221Utils namespace
+Let me know if you need any additional information or assistance!
+
+
+
+
+
+main.cpp: contains the setup() and loop() functions, initializes and runs the TankMonitor object
+TankMonitor.h: contains the class declaration for the TankMonitor object, which monitors the water tank and controls the pump
+TankMonitor.cpp: contains the implementation of the TankMonitor class methods, including reading the water level and flow switch, and controlling the pump
+INA3221_Utils.h: contains utility functions for initializing and reading the INA3221 sensor, used for reading the water level and flow switch
+INA3221_Utils.cpp: contains the implementation of the INA3221 utility functions
+Relay_Utils.h: contains utility functions for controlling the relay, used for turning the pump on and off
+Relay_Utils.cpp: contains the implementation of the Relay utility functions
+Flow_Switch_Utils.h: contains utility functions for reading the flow switch, used for detecting water flow
+Flow_Switch_Utils.cpp: contains the implementation of the Flow_Switch utility functions
+WaterLevel_Sensor_Utils.h: contains utility functions for reading the water level sensor, used for detecting the water level in the tank
+WaterLevel_Sensor_Utils.cpp: contains the implementation of the WaterLevel_Sensor utility functions
+Ticker_Utils.h: contains utility functions for setting up and running Ticker objects, used for timing events like checking for water flow after the pump is turned on
+Ticker_Utils.cpp: contains the implementation of the Ticker utility functions
+platformio.ini: contains the project configuration, including board and library dependencies
+
+Sure, I can help you with that. Here's an outline of the code:
+
+Initialize the ESP32 and necessary libraries.
+Initialize the pump relay and flow switch pins.
+Initialize the INA3221 to read current from the pump motor.
+Define the turn-on and turn-off levels for the tank.
+Define the pump control logic and flow switch debounce logic.
+Define the functions to read the tank level and flow switch status.
+In the main loop, read the tank level and turn on the pump if necessary.
+After 1 second, read the flow switch status and turn off the pump if there is no flow.
+Continue pumping until either the tank is empty or the turn-off level is reached.
+Print messages when the pump is turned on, turned off, or when there is no flow.
+
+Define constants for the water level sensor, pump, and flow switch pins.
+Include the necessary libraries for the INA3221, Ticker, and Serial communication.
+Initialize the INA3221 and set its shunt values.
+Set up a Ticker to monitor the water level every 1 second and adjust the pump accordingly.
+Create a function to read the water level sensor using the INA3221.
+Create a function to turn on the pump when the water level is above the turn-on level.
+Create a function to turn off the pump when the water level is below the turn-off level or there is no flow detected.
+Create a function to handle the flow switch by setting a flag when flow is detected.
+Add the necessary code in the Ticker function to call the pump control and flow switch functions.
+Set up the Serial communication to display information about the water level and pump status.
+Once the waonce the water level reaches the turn on level, turn on the pump to drain the tank.
+To turn on the pump, we can simply set the pump pin to HIGH. Let's assume that the pump is connected to pin 13.
+
+Note that we are setting the pumpOn variable to true. We will use this variable later on to determine when to turn off the pump.
+
+Now that the pump is turned on, we need to monitor the water flow to make sure that the pump is actually draining the tank.
+ We will do this in step 5.
+Now that we have the pump turning on and off based on the water level in the tank, we need to test for water flow. 
+We can use a flow switch for this.
+
+Connect the flow switch to the ESP32 board. We will use pin 4 for the flow switch input.
+
+We will use the Ticker library to delay reading the flow switch for the first second after the pump has been turned on. 
+This gives the pump enough time to start draining the tank before we test for water flow.
+
+Create a Ticker object called flowSwitchTicker that calls a function handleFlowSwitch every 100ms. We will start the 
+Ticker when the pump is turned on.
+
+In handleFlowSwitch, read the state of the flow switch input pin. If it is HIGH, then there is water flow. If it is LOW, 
+then there is no water flow.
+
+If there is no water flow and the pump is on, turn off the pump and print a warning message.
+
+If there is water flow, keep the pump on until there is no water flow or the turn off level has been reached.
+
+When the turn off level has been reached, turn off the pump and print a message that the tank is empty.
+
+Repeat from step 2.
